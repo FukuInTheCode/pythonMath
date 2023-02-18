@@ -1,14 +1,19 @@
 import pygame as pyg
 import numpy as np
 from src.objects import Point
-from math import cos, sin
+from math import cos, sin, pi
 
 class projection_to2d:
     
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
     RED = (255, 0, 0)
-
+        
+    projection_matrix = np.matrix([
+        [1, 0, 0],
+        [0, 1, 0]
+    ])
+    
     
     def __init__(self, screen: pyg.Surface, objs: list[Point]) -> None:
         
@@ -22,7 +27,7 @@ class projection_to2d:
         angle = 0
         
         while True:
-            clock.tick(60)
+            clock.tick(120)
 
             for event in pyg.event.get():
                 if event.type == pyg.QUIT:
@@ -34,30 +39,20 @@ class projection_to2d:
                         exit()
             
             # update stuff
-
-            rotation_z = np.matrix([
-                [cos(angle), -sin(angle), 0],
-                [sin(angle), cos(angle), 0],
-                [0, 0, 1],
+            
+            
+            xyz_rotation = np.matrix([
+                [cos(angle)**2, cos(angle)*sin(angle)**2-cos(angle)*sin(angle), cos(angle)**2*sin(angle)+sin(angle)**2],
+                [cos(angle)*sin(angle), sin(angle)**3+cos(angle)**2, cos(angle)*sin(angle)**2-sin(angle)*cos(angle)],
+                [-sin(angle), sin(angle)*cos(angle), cos(angle)**2]
             ])
-
-            rotation_y = np.matrix([
-                [cos(angle), 0, sin(angle)],
-                [0, 1, 0],
-                [-sin(angle), 0, cos(angle)],
-            ])
-
-            rotation_x = np.matrix([
-                [1, 0, 0],
-                [0, cos(angle), -sin(angle)],
-                [0, sin(angle), cos(angle)],
-            ])
-            # angle += 0.01
+            
+            angle = (angle + 0.01)%(2*pi)
 
             self.win.fill(self.WHITE)
             
             for obj in self.objects:
-                obj.update(rotation_z)
+                obj.update(xyz_rotation)
+                obj.draw(self.win, 100)
                 
-            for obj in self.objects:
-                obj.draw(self.win, 50)
+            pyg.display.flip()
