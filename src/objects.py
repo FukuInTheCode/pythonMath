@@ -31,4 +31,37 @@ class Point:
     def update(self, transform: np.ndarray) -> None:
         self.vector = np.dot(transform, self._vector)
         
-                
+        
+        
+        
+class Cube(Point):
+    
+    def __init__(self, x: int, y: int, z: int, side:int) -> None:
+        super().__init__(x, y, z)
+        
+        self.vertexes = [Point(
+            side*(1 if i in (1, 2, 5, 7) else 0) + x,
+            side*(1 if i in (3, 2, 6, 7) else 0) + y,
+            side*(1 if i in (4, 5, 6, 7) else 0) + z
+        ) for i in range(8)]
+        
+        self._vector = self.vector + side/2
+        self.vector = self.vector.copy()
+        
+    def update(self, transform: np.ndarray) -> None:
+        for i in self.vertexes:
+            i.update(transform)
+            
+        return super().update(transform)
+            
+    def draw(self, screen: pyg.Surface, scale: int) -> None:
+        
+        for i in self.vertexes:
+            i.draw(screen, scale)
+        
+        return super().draw(screen, scale)
+    
+    
+class Eq_Triangle(Point):
+    def __init__(self, x: int, y: int, z: int, ) -> None:
+        super().__init__(x, y, z)
