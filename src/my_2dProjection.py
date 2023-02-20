@@ -40,11 +40,13 @@ class projection_to2d:
             
             # update stuff
             
+            alpha = cos(angle)
+            beta = sin(angle)
             
             xyz_rotation = np.matrix([
-                [cos(angle)**2, cos(angle)*sin(angle)**2-cos(angle)*sin(angle), cos(angle)**2*sin(angle)+sin(angle)**2],
-                [cos(angle)*sin(angle), sin(angle)**3+cos(angle)**2, cos(angle)*sin(angle)**2-sin(angle)*cos(angle)],
-                [-sin(angle), sin(angle)*cos(angle), cos(angle)**2]
+                [alpha**2, -1*beta*alpha, beta],
+                [beta**2*alpha+beta*alpha, -1*beta**3+alpha**2, -1*beta*alpha],
+                [-1*beta*alpha**2+beta**2, -1*beta**2*alpha+beta*alpha, alpha**2]
             ])
             
             angle = (angle + 0.01)%(2*pi)
