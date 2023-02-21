@@ -1,12 +1,14 @@
 from src.my_2dProjection import projection_to2d
 import pygame as pyg
-from src.objects import Point, Cube, BasePyramid
+from src.objects.point import Point
+from src.objects.cube import Cube
+from src.objects.basePyramid import BasePyramid
 import numpy as np
 
 def main():
     win = pyg.display.set_mode((720, 500))
     
-    objects = [Cube(-10, -1, -1, 2, 'xyzxyz')]
+    objects = [BasePyramid(1, 0, 0, 2, 'zy')]
     
     p2d = projection_to2d(win, objects)
     

@@ -1,6 +1,6 @@
 import pygame as pyg
 import numpy as np
-from src.objects import Point
+from src.objects.point import Point
 from math import cos, sin, pi
 
 class projection_to2d:
