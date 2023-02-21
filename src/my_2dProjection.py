@@ -40,21 +40,12 @@ class projection_to2d:
             
             # update stuff
             
-            alpha = cos(angle)
-            beta = sin(angle)
-            
-            xyz_rotation = np.matrix([
-                [alpha**2, -1*beta*alpha, beta],
-                [beta**2*alpha+beta*alpha, -1*beta**3+alpha**2, -1*beta*alpha],
-                [-1*beta*alpha**2+beta**2, -1*beta**2*alpha+beta*alpha, alpha**2]
-            ])
-            
             angle = (angle + 0.01)%(2*pi)
 
             self.win.fill(self.WHITE)
             
             for obj in self.objects:
-                obj.update(xyz_rotation)
+                obj.update(angle)
                 obj.draw(self.win, 100)
                 
             pyg.display.flip()

@@ -2,7 +2,7 @@ import numpy as np
 from math import cos, sin, pi
 
 
-angle = 3
+angle = 1
 
 beta = sin(angle)
 alpha = cos(angle)
@@ -33,6 +33,12 @@ xyz_rotation = np.matrix([
             ])
 
 
-print(np.dot(np.dot(rotation_x, rotation_y), rotation_z))
+a = lambda angle: np.matrix([
+                [cos(angle)**2, -1*sin(angle)*cos(angle), sin(angle)],
+                [sin(angle)**2*cos(angle)+beta*cos(angle), -1*sin(angle)**3+cos(angle)**2, -1*sin(angle)*cos(angle)],
+                [-1*sin(angle)*cos(angle)**2+sin(angle)**2, -1*sin(angle)**2*cos(angle)+sin(angle)*cos(angle), cos(angle)**2]
+            ])
 
-print(xyz_rotation)
+a = [i for i in 'xyz']
+
+print(a)
