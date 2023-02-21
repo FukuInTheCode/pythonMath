@@ -18,6 +18,8 @@ class projection_to2d:
     def __init__(self, screen: pyg.Surface, objs: list[Point]) -> None:
         
         self.win = screen
+        
+        pyg.display.set_caption('my_2dProjection')
 
         self.objects = objs
 
@@ -46,6 +48,6 @@ class projection_to2d:
             
             for obj in self.objects:
                 obj.update(angle)
-                obj.draw(self.win, 100)
+                obj.draw_ortho(self.win, 100)
                 
             pyg.display.flip()

@@ -29,9 +29,9 @@ class Point:
                     }
     
     
-    projection_matrix = np.matrix([
-        [1, 0, 0],
-        [0, 1, 0]
+    ortho_projection_matrix = np.matrix([
+        [1, 0, 3],
+        [0, 1, 3]
     ])
 
     def __init__(self, x: int, y: int, z: int, rotation: str = 'zyx', stactic: bool = False, center: np.matrix = np.matrix([0, 0, 0]).reshape(3, 1)) -> None:
@@ -46,11 +46,11 @@ class Point:
         
         self.center = center
         
-    def draw(self, screen: pyg.Surface, scale:int) -> None:
+    def draw_ortho(self, screen: pyg.Surface, scale:int) -> None:
         for point in self.attachedPoints:
             pyg.draw.line(screen, self.BLACK, tuple(self.get_tuple(scale=scale, params=(screen.get_size()))), tuple(point.get_tuple(scale=scale, params=(screen.get_size()))))
         
-        proj2d = np.dot(self.projection_matrix, self.vector)
+        proj2d = np.dot(self.ortho_projection_matrix, self.vector)
         
         x = int(proj2d[0][0] * scale) + screen.get_width()/2
         y = int(proj2d[1][0] * scale) + screen.get_height()/2
@@ -75,7 +75,10 @@ class Point:
         self.vector = np.dot(rotation_matrix, self._vector-self.center) + self.center
         
     
-    def get_tuple(self, transformation: np.ndarray = np.matrix([[1, 0, 0], [0, 1, 0]]), scale: int = 1, params: tuple = (0, 0, 0)):
+    def get_tuple(self, transformation: np.ndarray = None, scale: int = 1, params: tuple = (0, 0, 0)):
+        
+        if transformation is None:
+            transformation = self.ortho_projection_matrix
         tmp = 0
         for i in np.dot(transformation, self.vector):
             yield float(i[0])*scale + params[tmp]/2

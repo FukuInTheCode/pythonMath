@@ -8,7 +8,7 @@ import numpy as np
 def main():
     win = pyg.display.set_mode((720, 500))
     
-    objects = [BasePyramid(1, 0, 0, 2, 'zy')]
+    objects = [BasePyramid(0, 0, 0, 4, static=False), Cube(0, 0, 0, 4, static=False)]
     
     p2d = projection_to2d(win, objects)
     
