@@ -30,8 +30,8 @@ class Point:
     
     
     ortho_projection_matrix = np.matrix([
-        [1, 0, 3],
-        [0, 1, 3]
+        [1, 0, 0],
+        [0, 1, 0]
     ])
 
     def __init__(self, x: int, y: int, z: int, rotation: str = 'zyx', stactic: bool = False, center: np.matrix = np.matrix([0, 0, 0]).reshape(3, 1)) -> None:
